@@ -1,23 +1,96 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect, useRef } from "react";
+import "./App.css";
 
 function App() {
+  const [onFocus, setOnFocus] = useState(false);
+  // data is the list of all the names
+  const data = [
+    "John Doe",
+    "Johnny Bravo",
+    "Jonathan Smith",
+    "Joanne Doe",
+    "Joan Rivers",
+    "Joe Bloggs",
+    "Johanna Johnson",
+  ];
+  // dataList is the list of names that are shown in the dropdown
+  const [dataList, setDataList] = useState(data);
+  // tags is the list of names that are selected
+  const [tags, setTags] = useState([]);
+  // input is the text that is typed in the div with contentEditable
+  const [input, setInput] = useState("");
+
+  // When the input changes, the dataList is filtered to show only the names that include the input text
+  useEffect(() => {
+    if (input)
+      setDataList(
+        data.filter((item) => item.toLowerCase().includes(input.toLowerCase()))
+      );
+    else setDataList(data);
+  }, [input]);
+
+  const editableDiv = useRef(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <main>
+        <div
+          className={`container ${onFocus ? "focus" : ""}`}
+          onFocus={() => setOnFocus(true)}
+          onBlur={() => setOnFocus(false)}
+          onClick={() => {
+            editableDiv.current.focus();
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {tags.map((item, index) => (
+            <span className="tag" key={index}>
+              <span className="tag-body">
+                <span className="icon">{item[0]}</span>
+                {item}
+              </span>
+              <span
+                className="remove-icon"
+                onClick={() => {
+                  const newTags = [...tags];
+                  newTags.splice(index, 1);
+                  setTags(newTags);
+                }}
+              >
+                x
+              </span>
+            </span>
+          ))}
+          <div
+            contentEditable="true"
+            onInput={(e) => {
+              setInput(e.target.innerText);
+            }}
+            ref={editableDiv}
+          ></div>
+        </div>
+        {onFocus && (
+          <ul className="list">
+            {dataList
+              .filter((item) => !tags.includes(item))
+              .map((item, index) => (
+                <li
+                  className="item"
+                  key={index}
+                  onMouseDown={(e) => {
+                    // Prevents the div from losing focus when clicking on the list
+                    e.stopPropagation();
+                    if (!tags.includes(item)) {
+                      setTags([...tags, item]);
+                    }
+                  }}
+                >
+                  <span className="icon">{item[0]}</span>
+                  {item}
+                </li>
+              ))}
+          </ul>
+        )}
+      </main>
     </div>
   );
 }

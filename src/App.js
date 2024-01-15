@@ -99,11 +99,10 @@ function App() {
                   onMouseDown={(e) => {
                     // Prevents the div from losing focus when clicking on the list
                     e.stopPropagation();
-                    if (!tags.includes(item)) {
-                      setTags([...tags, item]);
-                      setInput("");
-                      setHighlightLastTag(false);
-                    }
+                    setTags([...tags, item]);
+                    setHighlightLastTag(false);
+                    setInput("");
+                    editableDiv.current.innerText = "";
                   }}
                 >
                   <span className="icon">{item[0]}</span>

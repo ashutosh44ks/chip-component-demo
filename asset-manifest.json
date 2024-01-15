@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/chip-component-demo/static/css/main.5fda0fb3.css",
+    "main.js": "/chip-component-demo/static/js/main.38d785e2.js",
+    "index.html": "/chip-component-demo/index.html",
+    "main.5fda0fb3.css.map": "/chip-component-demo/static/css/main.5fda0fb3.css.map",
+    "main.38d785e2.js.map": "/chip-component-demo/static/js/main.38d785e2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5fda0fb3.css",
+    "static/js/main.38d785e2.js"
+  ]
+}

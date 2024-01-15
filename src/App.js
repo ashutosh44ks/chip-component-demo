@@ -95,6 +95,7 @@ function App() {
                 <li
                   className="item"
                   key={index}
+                  // Using onMouseDown instead of onClick to prevent the div from losing focus
                   onMouseDown={(e) => {
                     // Prevents the div from losing focus when clicking on the list
                     e.stopPropagation();

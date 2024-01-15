@@ -31,6 +31,8 @@ function App() {
 
   const editableDiv = useRef(null);
 
+  const [highlightLastTag, setHighlightLastTag] = useState(false);
+
   return (
     <div className="App">
       <main>
@@ -43,7 +45,14 @@ function App() {
           }}
         >
           {tags.map((item, index) => (
-            <span className="tag" key={index}>
+            <span
+              className={`tag ${
+                index === tags.length - 1 && highlightLastTag
+                  ? "highlighted"
+                  : ""
+              }`}
+              key={index}
+            >
               <span className="tag-body">
                 <span className="icon">{item[0]}</span>
                 {item}
@@ -65,6 +74,16 @@ function App() {
             onInput={(e) => {
               setInput(e.target.innerText);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Backspace") {
+                if (highlightLastTag) {
+                  const newTags = [...tags];
+                  newTags.splice(newTags.length - 1, 1);
+                  setTags(newTags);
+                  setHighlightLastTag(false);
+                } else setHighlightLastTag(true);
+              }
+            }}
             ref={editableDiv}
           ></div>
         </div>
@@ -81,6 +100,8 @@ function App() {
                     e.stopPropagation();
                     if (!tags.includes(item)) {
                       setTags([...tags, item]);
+                      setInput("");
+                      setHighlightLastTag(false);
                     }
                   }}
                 >

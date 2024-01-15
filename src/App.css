@@ -43,6 +43,9 @@ body {
   gap: 0.5rem;
   cursor: default;
 }
+.container .tag.highlighted {
+  background-color: #f44336;
+}
 .container .tag .tag-body {
   display: flex;
   align-items: center;
